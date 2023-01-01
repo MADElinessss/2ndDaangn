@@ -1,32 +1,53 @@
 package com.example.lastdaangn
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.example.lastdaangn.databinding.ActivityMainBinding
+import com.example.lastdaangn.ui.dongne.DongneFragment
+import com.example.lastdaangn.ui.mycarrot.MycarrotFragment
+import com.example.lastdaangn.ui.home.HomeFragment
+import com.example.lastdaangn.ui.login.LoginFragment
 
 class MainActivity : AppCompatActivity() {
 
-private lateinit var binding: ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-     binding = ActivityMainBinding.inflate(layoutInflater)
-     setContentView(binding.root)
-
-        val navView: BottomNavigationView = binding.navView
-
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications))
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        supportFragmentManager.beginTransaction().replace(R.id.main_frm, LoginFragment()).commitAllowingStateLoss()
+        binding.mainBtmNav.run{
+            setOnItemSelectedListener { item ->
+                when(item.itemId){
+                    R.id.menu_main_btm_nav_home -> {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.main_frm, HomeFragment())
+                            .commitAllowingStateLoss()
+                    }
+                    R.id.menu_main_btm_nav_dongne -> {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.main_frm, DongneFragment())
+                            .commitAllowingStateLoss()
+                    }
+                    R.id.menu_main_btm_nav_chatting -> {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.main_frm, MycarrotFragment())
+                            .commitAllowingStateLoss()
+                    }
+                    R.id.menu_main_btm_nav_mynearby -> {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.main_frm, MycarrotFragment())
+                            .commitAllowingStateLoss()
+                    }
+                    R.id.menu_main_btm_nav_my_page -> {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.main_frm, MycarrotFragment())
+                            .commitAllowingStateLoss()
+                    }
+                }
+                true
+            }
+            selectedItemId = R.id.menu_main_btm_nav_home
+        }
     }
 }
